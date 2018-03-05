@@ -1,5 +1,5 @@
 
-export default function Potree () {
+function Potree () {
 
 }
 

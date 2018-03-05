@@ -10,7 +10,7 @@
 
 
 
-export default function BinaryHeap(scoreFunction){
+function BinaryHeap(scoreFunction){
   this.content = [];
   this.scoreFunction = scoreFunction;
 }
