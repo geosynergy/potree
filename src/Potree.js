@@ -1,7 +1,8 @@
 
-function Potree () {
+export default function Potree () {
 
 }
+
 Potree.version = {
 	major: 1,
 	minor: 6,
