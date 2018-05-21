@@ -19,7 +19,7 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
 		this.tweens = [];
 
 		{
-			let sg = new THREE.SphereGeometry(1, 16, 16);
+			let sg = new THREE.SphereGeometry(1, 7, 7);
 			let sm = new THREE.MeshNormalMaterial();
 			this.pivotIndicator = new THREE.Mesh(sg, sm);
 			this.pivotIndicator.visible = false;
@@ -111,10 +111,10 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
 
 		let onMouseDown = e => {
 			let I = Potree.utils.getMousePointCloudIntersection(
-				e.mouse, 
-				this.scene.getActiveCamera(), 
-				this.viewer, 
-				this.scene.pointclouds, 
+				e.mouse,
+				this.scene.getActiveCamera(),
+				this.viewer,
+				this.scene.pointclouds,
 				{pickClipped: false});
 
 			if (I) {
@@ -122,8 +122,17 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
 				this.camStart = this.scene.getActiveCamera().clone();
 				this.pivotIndicator.visible = true;
 				this.pivotIndicator.position.copy(I.location);
-			}
+			} else {
+        let o = this.getBasePlaneIntersection(e.mouse)
+        if (o) {
+          this.pivot = o.point
+          this.camStart = this.scene.getActiveCamera().clone();
+          this.pivotIndicator.visible = true;
+          this.pivotIndicator.position.copy(o.point);
+        }
+      }
 		};
+
 
 		let drop = e => {
 			this.dispatchEvent({type: 'end'});
@@ -137,6 +146,7 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
 
 		let scroll = (e) => {
 			this.wheelDelta += e.delta;
+      this.dispatchEvent({type: 'end'});
 		};
 
 		let dblclick = (e) => {
@@ -151,6 +161,17 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
 		this.addEventListener('dblclick', dblclick);
 	}
 
+  getBasePlaneIntersection (mouse){
+    let nmouse = {
+      x: (mouse.x / this.viewer.renderer.domElement.clientWidth) * 2 - 1,
+      y: -(mouse.y / this.viewer.renderer.domElement.clientHeight) * 2 + 1
+    };
+
+    let raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(nmouse, this.scene.getActiveCamera());
+    return raycaster.intersectObject(this.scene.planeBase)[0]
+  }
+
 	setScene (scene) {
 		this.scene = scene;
 	}
@@ -159,10 +180,10 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
 		this.wheelDelta = 0;
 		this.zoomDelta.set(0, 0, 0);
 	}
-	
+
 	zoomToLocation(mouse){
 		let camera = this.scene.getActiveCamera();
-		
+
 		let I = Potree.utils.getMousePointCloudIntersection(
 			mouse,
 			camera,
@@ -228,27 +249,37 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
 		let fade = Math.pow(0.5, this.fadeFactor * delta);
 		let progression = 1 - fade;
 		let camera = this.scene.getActiveCamera();
-		
+
 		// compute zoom
 		if (this.wheelDelta !== 0) {
 			let I = Potree.utils.getMousePointCloudIntersection(
-				this.viewer.inputHandler.mouse, 
-				this.scene.getActiveCamera(), 
-				this.viewer, 
+				this.viewer.inputHandler.mouse,
+				this.scene.getActiveCamera(),
+				this.viewer,
 				this.scene.pointclouds);
 
-			if (I) {
+			let location
+      if (I) {
+			  location = I.location
+      } else {
+			  let o = this.getBasePlaneIntersection(this.viewer.inputHandler.mouse)
+			  if (o) {
+          location = o.point
+        }
+      }
+
+			if (location) {
 				let resolvedPos = new THREE.Vector3().addVectors(view.position, this.zoomDelta);
-				let distance = I.location.distanceTo(resolvedPos);
+				let distance = location.distanceTo(resolvedPos);
 				let jumpDistance = distance * 0.2 * this.wheelDelta;
-				let targetDir = new THREE.Vector3().subVectors(I.location, view.position);
+				let targetDir = new THREE.Vector3().subVectors(location, view.position);
 				targetDir.normalize();
 
 				resolvedPos.add(targetDir.multiplyScalar(jumpDistance));
 				this.zoomDelta.subVectors(resolvedPos, view.position);
 
 				{
-					let distance = resolvedPos.distanceTo(I.location);
+					let distance = resolvedPos.distanceTo(location);
 					view.radius = distance;
 					let speed = view.radius / 2.5;
 					this.viewer.setMoveSpeed(speed);
