@@ -19,7 +19,7 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
 		this.tweens = [];
 
 		{
-			let sg = new THREE.SphereGeometry(1, 7, 7);
+			let sg = new THREE.SphereGeometry(0.5, 16, 16);
 			let sm = new THREE.MeshNormalMaterial();
 			this.pivotIndicator = new THREE.Mesh(sg, sm);
 			this.pivotIndicator.visible = false;
