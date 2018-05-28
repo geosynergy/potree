@@ -146,7 +146,7 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
 
 		let scroll = (e) => {
 			this.wheelDelta += e.delta;
-      this.dispatchEvent({type: 'end'});
+      this.dispatchEvent({type: 'end', action: 'scroll'});
 		};
 
 		let dblclick = (e) => {
@@ -158,7 +158,7 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
 		this.addEventListener('mousewheel', scroll);
 		this.addEventListener('mousedown', onMouseDown);
 		this.addEventListener('mouseup', onMouseUp);
-		this.addEventListener('dblclick', dblclick);
+		// this.addEventListener('dblclick', dblclick);
 	}
 
   getBasePlaneIntersection (mouse){
