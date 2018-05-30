@@ -1234,7 +1234,7 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 			let far = -this.getBoundingBox().applyMatrix4(camera.matrixWorldInverse).min.z;
 
 			far = Math.max(far * 1.5, 1000);
-			near = Math.min(100.0, Math.max(0.01, near));
+			near = Math.min(10.0, Math.max(0.01, near));
 			far = Math.max(far, near + 1000);
 
 			if(near === Infinity){
