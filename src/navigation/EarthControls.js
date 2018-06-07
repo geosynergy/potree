@@ -64,8 +64,11 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
 
 					let movedBy = new THREE.Vector3().subVectors(
 						I, this.pivot);
+					// console.log(movedBy)
 
+          movedBy.z = 0
 					let newCamPos = camStart.position.clone().sub(movedBy);
+
 
 					view.position.copy(newCamPos);
 
