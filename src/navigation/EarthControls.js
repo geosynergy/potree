@@ -48,6 +48,8 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
 			let mouse = e.drag.end;
 			let domElement = this.viewer.renderer.domElement;
 
+
+
 			if (e.drag.mouse === Potree.MOUSE.LEFT) {
 
 				let ray = Potree.utils.mouseToRay(mouse, camStart, domElement.clientWidth, domElement.clientHeight);
