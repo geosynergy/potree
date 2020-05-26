@@ -171,8 +171,16 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
     };
 
     let raycaster = new THREE.Raycaster();
+    raycaster.params.Line.threshold = 5;
     raycaster.setFromCamera(nmouse, this.scene.getActiveCamera());
-    return raycaster.intersectObject(this.scene.planeBase)[0]
+    let intersections = raycaster.intersectObjects( this.scene.scene.children, true );
+    if (intersections.length) {
+      return  intersections[0]
+    } else {
+      let i =  raycaster.intersectObject(this.scene.planeBase)[0]
+      return i || {'point': this.scene.defaultPivot}
+    }
+
   }
 
 	setScene (scene) {
