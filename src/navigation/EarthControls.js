@@ -173,7 +173,8 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
     };
 
     let raycaster = new THREE.Raycaster();
-    raycaster.params.Line.threshold = 5;
+    raycaster.params.Line.threshold = 50;
+    raycaster.params.Points.threshold = 50;
     raycaster.setFromCamera(nmouse, this.scene.getActiveCamera());
     let intersections = raycaster.intersectObjects( this.scene.scene.children, true );
     if (intersections.length) {
@@ -281,7 +282,7 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
         }
       }
 
-			if (location) {
+			if (location && location.distanceTo) {
 				let resolvedPos = new THREE.Vector3().addVectors(view.position, this.zoomDelta);
 				let distance = location.distanceTo(resolvedPos);
 				let jumpDistance = distance * 0.2 * this.wheelDelta;
