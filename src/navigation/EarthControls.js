@@ -180,8 +180,8 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
     if (intersections.length) {
       return  intersections[0]
     } else {
-      let i =  raycaster.intersectObject(this.scene.planeBase)[0]
-      return i || {'point': this.scene.defaultPivot}
+      // let i =  raycaster.intersectObject(this.scene.planeBase)[0]
+      return  {'point': this.scene.defaultPivot}
     }
 
   }
