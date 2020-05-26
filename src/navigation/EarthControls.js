@@ -9,10 +9,10 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
 		this.scene = null;
 		this.sceneControls = new THREE.Scene();
 
-		this.rotationSpeed = 10;
+		this.rotationSpeed = 4;
 
 		this.fadeFactor = 20;
-		this.wheelDelta = 0;
+		this.wheelDelta = 0.1;
 		this.zoomDelta = new THREE.Vector3();
 		this.camStart = null;
 
@@ -47,6 +47,8 @@ Potree.EarthControls = class EarthControls extends THREE.EventDispatcher {
 			// let camera = this.viewer.scene.camera;
 			let mouse = e.drag.end;
 			let domElement = this.viewer.renderer.domElement;
+
+
 
 			if (e.drag.mouse === Potree.MOUSE.LEFT) {
 

@@ -9,16 +9,16 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 		this.guiLoadTasks = [];
 
 		this.messages = [];
-		this.elMessages = $(`
+		/*this.elMessages = $(`
 		<div id="message_listing" 
 			style="position: absolute; z-index: 1000; left: 10px; bottom: 10px">
 		</div>`);
-		$(domElement).append(this.elMessages);
+		$(domElement).append(this.elMessages);*/
 		
 		try{
 
 		{ // generate missing dom hierarchy
-			if ($(domElement).find('#potree_map').length === 0) {
+			/*if ($(domElement).find('#potree_map').length === 0) {
 				let potreeMap = $(`
 					<div id="potree_map" class="mapBox" style="position: absolute; left: 50px; top: 50px; width: 400px; height: 400px; display: none">
 						<div id="potree_map_header" style="position: absolute; width: 100%; height: 25px; top: 0px; background-color: rgba(0,0,0,0.5); z-index: 1000; border-top-left-radius: 3px; border-top-right-radius: 3px;">
@@ -27,19 +27,19 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 					</div>
 				`);
 				$(domElement).append(potreeMap);
-			}
+			}*/
 
-			if ($(domElement).find('#potree_description').length === 0) {
+			/*if ($(domElement).find('#potree_description').length === 0) {
 				let potreeDescription = $(`<div id="potree_description" class="potree_info_text"></div>`);
 				$(domElement).append(potreeDescription);
-			}
+			}*/
 
-			if ($(domElement).find('#potree_annotations').length === 0) {
+			/*if ($(domElement).find('#potree_annotations').length === 0) {
 				let potreeAnnotationContainer = $(`
 					<div id="potree_annotation_container" 
 						style="position: absolute; z-index: 100000; width: 100%; height: 100%; pointer-events: none;"></div>`);
 				$(domElement).append(potreeAnnotationContainer);
-			}
+			}*/
 		}
 
 		this.pointCloudLoadedCallback = args.onPointCloudLoaded || function () {};
@@ -208,9 +208,11 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 
 	onCrash(error){
 
-		$(this.renderArea).empty();
+		// $(this.renderArea).empty();
 
-		if ($(this.renderArea).find('#potree_failpage').length === 0) {
+		console.error('Potree Encountered An Error')
+
+		/*if ($(this.renderArea).find('#potree_failpage').length === 0) {
 			let elFailPage = $(`
 			<div id="#potree_failpage" class="potree_failpage"> 
 				
@@ -245,7 +247,7 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 			elErrorMessage.html(error.stack);
 
 			$(this.renderArea).append(elFailPage);
-		}
+		}*/
 
 		throw error;
 	}

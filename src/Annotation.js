@@ -61,7 +61,7 @@ Potree.Annotation = class extends THREE.EventDispatcher {
 
 		this.elTitlebar = this.domElement.find('.annotation-titlebar');
 		this.elTitle = this.elTitlebar.find('.annotation-label');
-		this.elTitle.append(this.title);;
+		this.elTitle.append(this.title);
 		this.elDescription = this.domElement.find('.annotation-description');
 		this.elDescriptionClose = this.elDescription.find('.annotation-description-close');
 		// this.elDescriptionContent = this.elDescription.find(".annotation-description-content");

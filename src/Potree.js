@@ -762,7 +762,7 @@ Potree.XHRFactory = {
 
 
 
-(function($){
+/*(function($){
 	$.fn.extend({
 		selectgroup: function(args = {}){
 
@@ -835,4 +835,4 @@ Potree.XHRFactory = {
 
 		}
 	});
-})(jQuery);
+})(jQuery);*/
